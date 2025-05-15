@@ -14,7 +14,30 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 @bot.event
 #What Dice God says when it boots up
 async def on_ready():
-    channel = bot.get_channel(dontlook.TEST_CHANNEL_ID)
+    channel = bot.get_channel(dontlook.get_test_channel_id())
+    global d0 
+    d0 = dice.Dice()
+    global d4 
+    d4 = dice.Dice()
+    d4.d4()
+    global d6 
+    d6 = dice.Dice()
+    d6.d6()
+    global d8 
+    d8 = dice.Dice()
+    d8.d8()
+    global d10 
+    d10 = dice.Dice()
+    d10.d10()
+    global d12 
+    d12 = dice.Dice()
+    d12.d12()
+    global d20 
+    d20 = dice.Dice()
+    d20.d20()
+    global d100 
+    d100 = dice.Dice()
+    d100.d100()
     #sends message to channel when bot is online
     await channel.send('Dice God watches you...') 
 
@@ -24,14 +47,42 @@ async def on_ready():
 async def whoami(ctx):
     await ctx.send("You are you.")
 @bot.command()
+async def check(ctx):
+    d4.d4()
+    await ctx.send("Sides: {}, Modifier: {}, Damage Type: {}, Name: {}".format(d4.sides(), d4.mod(), d4.dmg(), d4.name()))
+@bot.command()
 #rolls a die of any size and modifier with advantage or disadvantage x number of times
-async def roll(ctx,die, mod='0', weight='none', numRolls='1'):
-    if error_handling.numValidation(numRolls) == False:
-        await ctx.send("Invalid input. Please use the format !roll <die> <modifier> <a or d> <# of rolls>.")
-        return
-    rolls = abs(int(numRolls))
-    for i in range(rolls):
-        await ctx.send(die, mod, weight)
+async def roll(ctx,die='d20', mod='0', weight='none', numRolls='1'):
+    if die == 'd4':
+        d4.setMod(mod)
+        await ctx.send("You rolled a {} on a {} adding {} and rolling with {}".format(d4.rollDice(weight,numRolls),die,mod,weight))
+    elif die == 'd6':
+        d6.setMod(mod)
+        await ctx.send(d6.rollDice(weight,numRolls))
+    elif die == 'd8':
+        d8.setMod(mod)
+        await ctx.send(d8.rollDice(weight,numRolls))
+    elif die == 'd10':
+        d10.setMod(mod)
+        await ctx.send(d10.rollDice(weight,numRolls))
+    elif die == 'd12':
+        d12.setMod(mod)
+        await ctx.send(d12.rollDice(weight,numRolls))
+    elif die == 'd20':
+        d20.setMod(mod)
+        await ctx.send(d20.rollDice(weight,numRolls))
+    elif die == 'd100':
+        d100.setMod(mod)
+        await ctx.send(d100.rollDice(weight,numRolls))
+    elif error_handling.numValidation(die) == True:
+         d0.custom(die,mod,type=0,name='custom')
+         await ctx.send(d0.rollDice(weight,numRolls))
+    else:
+        await ctx.send("Invalid input. When rolling a custom die, please use the format !roll <# of sides> <modifier> <a or d> <# of rolls>.")
+
+   # rolls = abs(int(numRolls))
+    #for i in range(rolls):
+    #    await ctx.send(die, mod, weight)
 @bot.command()
 #adds multiple die rolls together   
 async def multi(ctx, numDice):
@@ -45,4 +96,4 @@ async def message(ctx,text):
     
 
 #this makes the bot run
-bot.run(dontlook.BOT_TOKEN)
+bot.run(dontlook.get_token())

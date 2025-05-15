@@ -11,8 +11,8 @@ class Dice:
         if error_handling.numValidation(die) == False or error_handling.numValidation(modifier) == False:
             return "Invalid input. Please enter a number."
         self.dName = name
-        self.sides = abs(int(die))
-        self.modifier = int(modifier)
+        self.side = abs(int(die))
+        self.modifier = modifier
         self.dmgType = ['none', 'bludgeoning', 'piercing', 'slashing', 'fire', 'cold', 'lightning', 'thunder', 'acid', 'poison']
         self.element = self.dmgType[0]
         self.lRoll = 0
@@ -29,21 +29,24 @@ class Dice:
     def setSide(self, sides):
         if error_handling.numValidation(sides) == False:
             return "Invalid input. Please enter a number."
-        self.sides = abs(int(sides))
+        self.side = abs(int(sides))
 
     def sides(self):        
-        return self.sides
+        return self.side
 
     def setMod(self, modifier):
         if error_handling.numValidation(modifier) == False:
             return "Invalid input. Please use the format !roll <die> <modifier>."
-        self.modifier = modifier
+        self.modifier = int(modifier)
     
     def mod(self):
         return self.modifier    
 
-    def setDmg(self, type=0):
-        self.element = self.dmgType[type]
+    def setDmg(self, type):
+        if error_handling.numValidation(type) == False:
+            return "Invalid input. Please enter a number."
+        else:
+            self.element = self.dmgType[abs(int(type))]
 
     def dmg(self):
         return self.element
@@ -72,89 +75,88 @@ class Dice:
     def resetDice(self, type=0):
         self.sRolls = []
         self.lRoll = 0
-        self.element = self.dmgType[type]  
+        self.setDmg(type)  
     
-    def d4(self, mod='0', type='0', name='new dice'):
+    def d4(self, mod='0', type='0', name='d4'):
         if error_handling.numValidation(mod) == False or error_handling.numValidation(type) == False:
             return "Invalid input. Please enter a number."
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.mod(), self.dmg())
+        if self.side != 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         else:
             self.setName(name)
             self.setSide(4)
-            self.setMod(mod)
             self.resetDice(abs(int(type)))
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name(), self.mod(), self.dmg())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
     
-    def d6(self, mod='0', type='0', name='new dice'):
+    def d6(self, mod='0', type='0', name='d6'):
         if error_handling.numValidation(mod) == False or error_handling.numValidation(type) == False:
             return "Invalid input. Please enter a number."
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.modifier(), self.dmgType)
+        if self.side != 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         else:
             self.setName(name)
             self.setSide(6)
             self.setMod(mod)
             self.resetDice(type)
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name, self.modifier(), self.dmgType())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
         
-    def d8(self, mod='0', dmgType='none', name='new dice'):   
+    def d8(self, mod='0', dmgType='none', name='d8'):   
         if error_handling.numValidation(mod) == False:
             return "Invalid input. Please enter a number."
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.modifier(), self.dmgType())
+        if self.side != 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         else:
             self.name = name
             self.setSide(8)
             self.setMod(mod)
             self.resetDice(dmgType)
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name, self.modifier(), self.dmgType())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
         
-    def d10(self, mod='0', dmgType='none', name='new dice'):
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.modifier(), self.dmgType())
+    def d10(self, mod='0', dmgType='none', name='d10'):
+        if self.side!= 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         else:
             self.name = name
             self.setSide(10)
             self.setMod(mod)
             self.resetDice(dmgType)
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name, self.modifier(), self.dmgType())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
 
-    def d12(self, mod='0', dmgType='none', name='new dice'):
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.modifier(), self.dmgType())
+    def d12(self, mod='0', dmgType='none', name='d12'):
+        if self.side != 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         else:
             self.name = name
             self.setSide(12)
             self.setMod(mod)
             self.resetDice(dmgType)
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name, self.modifier(), self.dmgType())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
 
-    def d20(self, mod='0', dmgType='none', name='new dice'):
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.modifier(), self.dmgType())
+    def d20(self, mod='0', dmgType='none', name='d20'):
+        if self.side != 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         else:
             self.name = name
             self.setSide(20)
             self.setMod(mod)
             self.resetDice(dmgType)
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name, self.modifier(), self.dmgType())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
         
-    def d100(self, mod='0', dmgType='none', name='new dice'):
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.modifier(), self.dmgType())
+    def d100(self, mod='0', dmgType='none', name='d100'):
+        if self.side != 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         else:
             self.name = name
             self.setSide(100)
             self.setMod(mod)
             self.resetDice(dmgType)
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name, self.modifier(), self.dmgType())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
         
     def custom(self, sides='0', mod='0', dmgType='none', name='new dice'):
         if error_handling.numValidation(sides) == False or error_handling.numValidation(mod) == False:
             return "Invalid input. Please enter a number." 
-        if self.sides() != 0:
-            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.sides(), self.modifier(), self.dmgType())
+        if self.side != 0:
+            return "You have already created this die. It is a d{} with a modifier of {} and a damage type of {}.".format(self.side, self.modifier, self.element)
         elif abs(int(sides)) == 0:
             return "Your custom die must have at least 1 side."
         else:
@@ -162,10 +164,11 @@ class Dice:
             self.setSide(sides)
             self.setMod(mod)
             self.resetDice(dmgType)
-            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.sides(), self.name, self.modifier(), self.dmgType())
+            return "You've created a new d{} named {} with a modifier of {} and a damage type of {}.".format(self.side, self.dName, self.modifier, self.element)
     
     # DICE ACTIONS
     
+
     def rollDice(self, num='1'):
     #rolls damage die x times and returns total value
     #input validation
@@ -176,13 +179,13 @@ class Dice:
         result = 0
         
         #roll one damage die i amount of times and add to total
-        for i in rolls:
-            roll = random.randint(1, self.sides)
+        for i in range(rolls):
+            roll = random.randint(1, self.side)
             result += roll
 
         return result + self.modifier
     
-    def rollDice(self, weight='none', num='1'):
+    def rollDice(self, weight='none', mod='0', num='1'):
     #rolls the die based on input sides and modifier and sends the result
         #input validation
         if error_handling.numValidation(num) == False: 
@@ -190,21 +193,21 @@ class Dice:
         if error_handling.weightValidation(weight) == False:
             return "Invalid input. Please use the format !roll <die> <modifier> <a or d> <# of rolls>."
      
-        numSides = self.sides()
-        mod = self.modifier()
+        numSides = self.side
+        modifier = self.modifier
         dWeight = weight
         roll = abs(int(num))
         total = []
         
-        for i in roll:
+        for i in range(roll):
             #roll with advantage
             if dWeight == 'a':
                 firstRoll = random.randint(1, numSides)
                 secondRoll = random.randint(1, numSides)    
                 if firstRoll >= secondRoll:
-                    result = firstRoll + mod
+                    result = firstRoll + modifier
                 else:
-                    result = secondRoll + mod
+                    result = secondRoll + modifier
                 total.append(result)
                 #return critRoll(result, numSides, mod) + "\nAdvantage! You rolled a {} ({}, {}) on a d{} with a modifier of {}.".format(result, firstRoll, secondRoll, numSides, mod)
             #roll with disadvantage
@@ -212,30 +215,30 @@ class Dice:
                 firstRoll = random.randint(1, numSides)
                 secondRoll = random.randint(1, numSides)    
                 if firstRoll <= secondRoll:
-                        result = firstRoll + mod
+                        result = firstRoll + modifier
                 else:
-                        result = secondRoll + mod
+                        result = secondRoll + modifier
                 total.append(result)
                 #return critRoll(result, numSides, mod) + "\nDisadvantage! You rolled a {} ({}, {}) on a d{} with a modifier of {}.".format(result, firstRoll, secondRoll, numSides, mod)
             #roll straight
             elif dWeight == 'none':
-                result = random.randint(1, numSides) + mod
+                diceRoll = random.randint(1, numSides)
+                result = diceRoll + modifier
                 total.append(result)
                 #return critRoll(result, numSides, mod) + "\nYou rolled a {} on a d{} with a modifier of {}.".format(result, numSides, mod)
                 #error message for invalid input
         return sum(total)
    
-def crit(self):
+    def crit(self):
 #returns statement based on critical rolls
-    modifier = self.mod()
-    die = self.sides()
-    #natural 1
-    if self.lastRoll() == 1:
-        return False
 
-    #natural 20
-    if self.lastRoll() == self.sides():
-        return True
+        #natural 1
+        if self.lRoll == 1:
+            return False
+
+        #natural 20
+        if self.lRoll == self.side:
+            return True
 
 
 #PROBABLY NOT USE THESE
