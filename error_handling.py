@@ -10,7 +10,7 @@ def numValidation(num):
 #validation for weighted dice imput
 def weightValidation(weight):
     try:
-        if weight == 'a' or weight == 'd' or weight == 'none':
+        if weight == 'a' or weight == 'd' or weight == 'n':
             verdict = True
         else:
             verdict = False
