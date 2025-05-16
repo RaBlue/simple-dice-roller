@@ -7,7 +7,7 @@ def numValidation(num):
         verdict = False
     return verdict
 
-#validation for weighted dice imput
+#validation for weighted dice input
 def weightValidation(weight):
     try:
         if weight == 'a' or weight == 'd' or weight == 'n':

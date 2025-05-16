@@ -12,9 +12,9 @@ bot = commands.Bot(command_prefix='!', intents=discord.Intents.all())
 
 #Dice God's bot events
 @bot.event
-#What Dice God says when it boots up
 async def on_ready():
     channel = bot.get_channel(dontlook.get_test_channel_id())
+    #initialize default dice
     global d0 
     d0 = dice.Dice()
     global d4 
@@ -42,16 +42,19 @@ async def on_ready():
     await channel.send('Dice God watches you...') 
 
 #Dice God's commands
+
 @bot.command()
 #returns which profile you are using
 async def whoami(ctx):
     await ctx.send("You are you.")
-@bot.command()
-async def check(ctx):
-    d4.d4()
-    await ctx.send("Sides: {}, Modifier: {}, Damage Type: {}, Name: {}".format(d4.sides(), d4.mod(), d4.dmg(), d4.name()))
+#@bot.command()
+#async def check(ctx):
+    #d4.d4()
+    #await ctx.send("Sides: {}, Modifier: {}, Damage Type: {}, Name: {}".format(d4.sides(), d4.mod(), d4.dmg(), d4.name()))
+
 @bot.command()
 #rolls a die of any size and modifier with advantage or disadvantage x number of times
+#checks to see if die is default, if not creatres custom die
 async def roll(ctx,die='d20', mod='0', weight='n', numRolls='1'):
     if die == 'd4':
         d4.setMod(mod)
@@ -89,6 +92,7 @@ async def roll(ctx,die='d20', mod='0', weight='n', numRolls='1'):
         for i in range(int(numRolls)):
             d100.rollDice(weight,d100.mod())
             await ctx.send(d100.resultText())
+    #error handling to check if die can be created
     elif error_handling.numValidation(die) == True:
          d0.custom(die,mod,'0','custom')
          for i in range(int(numRolls)):
@@ -100,11 +104,14 @@ async def roll(ctx,die='d20', mod='0', weight='n', numRolls='1'):
    # rolls = abs(int(numRolls))
     #for i in range(rolls):
     #    await ctx.send(die, mod, weight)
+
 @bot.command()
 #adds multiple die rolls together   
 async def multi(ctx, numDice):
     await ctx.send("You dealt " + (numDice) + " in damage!")
+
 @bot.command()
+#dont remember what this was for, probably for testing or a workaround
 async def message(ctx,text):
     await ctx.send(text)  
 
